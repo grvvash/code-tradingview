@@ -1,0 +1,23 @@
+//@version=5
+indicator("EMA Proximity and Alignment Indicator", overlay=true)
+
+// Input Parameters
+shortEmaLength = input.int(10, title="Short EMA Length")
+longEmaLength = input.int(20, title="Long EMA Length")
+proximityPercent = input.float(5, title="Proximity Percentage")
+
+// Calculations
+shortEma = ta.ema(close, shortEmaLength)
+longEma = ta.ema(close, longEmaLength)
+proximityValue = shortEma * (proximityPercent / 100)
+
+// Conditions
+isEmaAligned = shortEma > longEma
+isPriceNearShortEma = math.abs(close - shortEma) <= proximityValue
+
+// Plot EMAs
+plotShortEma = plot(shortEma, color=color.blue, title="10 EMA")
+plotLongEma = plot(longEma, color=color.red, title="20 EMA")
+
+// Highlight Area Between 10 EMA and 20 EMA
+fill(plotShortEma, plotLongEma, color=isEmaAligned and isPriceNearShortEma ? color.new(color.yellow, 50) : na, title="Proximity Highlight")
