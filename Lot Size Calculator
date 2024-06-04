@@ -1,0 +1,73 @@
+//@version=5
+indicator("Account Size and Lot Size Indicator", overlay=false)
+
+// User input for total account size
+account_size = input.float(defval=10000, title="Total Account Size", minval=0)
+
+// User input for table background color
+table_bg_color = input.color(defval=color.new(color.black, 100), title="Table Background Color")
+
+// User input for table text color
+table_text_color = input.color(defval=color.black, title="Table Text Color")
+
+// User input for table border color
+table_border_color = input.color(defval=color.gray, title="Table Border Color")
+
+// Fetching the share price from the chart
+share_price = close
+
+// Calculating the percentages of the account size
+perc_25 = account_size * 0.25
+perc_20 = account_size * 0.20
+perc_18 = account_size * 0.18
+perc_15 = account_size * 0.15
+perc_12_5 = account_size * 0.125
+perc_10 = account_size * 0.10
+
+// Calculating the lot sizes based on the share price and rounding to the nearest whole number
+lot_25 = math.floor(perc_25 / share_price)
+lot_20 = math.floor(perc_20 / share_price)
+lot_18 = math.floor(perc_18 / share_price)
+lot_15 = math.floor(perc_15 / share_price)
+lot_12_5 = math.floor(perc_12_5 / share_price)
+lot_10 = math.floor(perc_10 / share_price)
+
+// Creating a table for account size and percentages
+var table account_table = table.new(position.top_left, 8, 2, bgcolor=table_bg_color, border_color=table_border_color)
+
+// Setting table headers
+table.cell(account_table, 0, 0, "Account Size", text_color=table_text_color)
+table.cell(account_table, 1, 0, "25%", text_color=table_text_color)
+table.cell(account_table, 2, 0, "20%", text_color=table_text_color)
+table.cell(account_table, 3, 0, "18%", text_color=table_text_color)
+table.cell(account_table, 4, 0, "15%", text_color=table_text_color)
+table.cell(account_table, 5, 0, "12.5%", text_color=table_text_color)
+table.cell(account_table, 6, 0, "10%", text_color=table_text_color)
+
+table.cell(account_table, 0, 1, str.tostring(account_size), text_color=table_text_color)
+table.cell(account_table, 1, 1, str.tostring(perc_25), text_color=table_text_color)
+table.cell(account_table, 2, 1, str.tostring(perc_20), text_color=table_text_color)
+table.cell(account_table, 3, 1, str.tostring(perc_18), text_color=table_text_color)
+table.cell(account_table, 4, 1, str.tostring(perc_15), text_color=table_text_color)
+table.cell(account_table, 5, 1, str.tostring(perc_12_5), text_color=table_text_color)
+table.cell(account_table, 6, 1, str.tostring(perc_10), text_color=table_text_color)
+
+// Creating a second table for lot sizes
+var table lot_table = table.new(position.top_right, 8, 2, bgcolor=table_bg_color, border_color=table_border_color)
+
+// Setting table headers
+table.cell(lot_table, 0, 0, "Share Price", text_color=table_text_color)
+table.cell(lot_table, 1, 0, "25% Size", text_color=table_text_color)
+table.cell(lot_table, 2, 0, "20% Size", text_color=table_text_color)
+table.cell(lot_table, 3, 0, "18% Size", text_color=table_text_color)
+table.cell(lot_table, 4, 0, "15% Size", text_color=table_text_color)
+table.cell(lot_table, 5, 0, "12.5% Size", text_color=table_text_color)
+table.cell(lot_table, 6, 0, "10% Size", text_color=table_text_color)
+
+table.cell(lot_table, 0, 1, str.tostring(share_price), text_color=table_text_color)
+table.cell(lot_table, 1, 1, str.tostring(lot_25), text_color=table_text_color)
+table.cell(lot_table, 2, 1, str.tostring(lot_20), text_color=table_text_color)
+table.cell(lot_table, 3, 1, str.tostring(lot_18), text_color=table_text_color)
+table.cell(lot_table, 4, 1, str.tostring(lot_15), text_color=table_text_color)
+table.cell(lot_table, 5, 1, str.tostring(lot_12_5), text_color=table_text_color)
+table.cell(lot_table, 6, 1, str.tostring(lot_10), text_color=table_text_color)
