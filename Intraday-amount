@@ -1,0 +1,19 @@
+//@version=5
+indicator("Custom Amount/Share Price Indicator", overlay=true)
+
+// Input for the amount
+amount = input.float(1000, title="Amount")
+
+// Get the current share price (closing price of the current bar)
+share_price = close
+
+// Calculate the result
+result = amount / share_price
+
+// Create a table
+var table myTable = table.new(position.middle_right, 1, 1, border_width=1, frame_color=color.black, frame_width=1)
+
+// Update the table with the result
+if (bar_index == last_bar_index)
+    table.cell(myTable, 0, 0, text="Amount / Price Intraday: " + str.tostring(result, format.mintick), text_color=color.black, bgcolor=color.white)
+
